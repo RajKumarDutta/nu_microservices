@@ -5,7 +5,7 @@ pipeline {
         choice(
             name: 'MICROSERVICE',
             choices: ['booking-service'],
-            description: 'Select which microservice to build and deploy'
+            description: 'Select which microservice to build'
         )
     }
 
@@ -19,20 +19,22 @@ pipeline {
             steps {
                 git branch: 'main',
                     credentialsId: 'github_secrets',
-                    url: "https://github.com/RajKumarDutta/${params.MICROSERVICE}.git"
+                    url: 'https://github.com/RajKumarDutta/nu_microservices.git'
             }
         }
 
         stage('Build JAR') {
             steps {
-                sh './mvnw clean package -DskipTests'
+                dir("${params.MICROSERVICE}") {
+                    sh './mvnw clean package -DskipTests'
+                }
             }
         }
 
         stage('Docker Build') {
             steps {
                 script {
-                    docker.build(DOCKER_IMAGE)
+                    docker.build(DOCKER_IMAGE, "${params.MICROSERVICE}")
                 }
             }
         }
