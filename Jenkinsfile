@@ -4,7 +4,7 @@ pipeline {
     parameters {
         choice(
             name: 'MICROSERVICE',
-            choices: ['booking-service'],
+            choices: ['booking-service', 'hotel-service'],
             description: 'Select which microservice to build'
         )
     }
