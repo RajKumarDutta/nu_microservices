@@ -17,7 +17,9 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                git branch: 'main', url: "https://github.com/RajKumarDutta/${params.MICROSERVICE}.git"
+                git branch: 'main',
+                    credentialsId: 'github_secrets',
+                    url: "https://github.com/RajKumarDutta/${params.MICROSERVICE}.git"
             }
         }
 
